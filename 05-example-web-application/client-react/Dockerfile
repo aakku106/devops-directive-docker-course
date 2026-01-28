@@ -1,6 +1,8 @@
 FROM node:19.4-bullseye AS build
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm i
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+  npm set cache /usr/src/app/.npm && \
+  npm i
 COPY . .
 CMD ["npm","run","dev"]
